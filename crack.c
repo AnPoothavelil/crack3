@@ -25,9 +25,29 @@ int main(int argc, char *argv[])
     //   Use the loadFile function from fileutil.c
     //   Uncomment the appropriate statement.
     int size;
-    //char (*hashes)[HASH_LEN] = loadFile(argv[1], &size);
-    //char **hashes = loadFile(argv[1], &size);
-    
+    int hc;
+    char (*hashes)[HASH_LEN] = loadFile(argv[1], &size);
+    char **hashes = loadFile(argv[1], &size);
+
+    FILE *givFile = fopen(argv[2], "r");
+
+    char ps[PASS_LEN];
+
+    while (fgets(password, PASS_LEN, givFile)) {
+        char *nPed = md5String(password); //gave up and copied from another code
+        for (int i = 0; i < size; i++) {
+            if (hashes[i] == nPed){
+                printf("tagged");
+                hc++;
+            }
+        }
+        free(nPed);
+    }
+
+    fclose(givFile);
+    printf("Number of passwords found: %d\n", hc);
+    free(hashes);  // Free the array of hashes.
+
     // CHALLENGE1: Sort the hashes using qsort.
     
     // TODO
